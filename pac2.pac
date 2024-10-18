@@ -4,7 +4,7 @@ function FindProxyForURL(url, host) {
         return "HTTPS 77.221.147.153:55555";
     }
 
-    if (shExpMatch(host, "discordapp.com")) {
+    if (shExpMatch(host, "*discordapp.com*")) {
         return "HTTPS 77.221.147.153:55555";
     }
 
