@@ -8,5 +8,8 @@ function FindProxyForURL(url, host) {
         return "PROXY 77.221.147.153:55555";
     }
 
+    if (shExpMatch(host, "*discord.com*")) {
+        return "PROXY 77.221.147.153:55555";
+    }
     return "DIRECT";
 }
