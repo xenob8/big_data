@@ -6,6 +6,8 @@ from datetime import timedelta
 import pymongo
 import requests
 
+from secrets import TOKEN
+
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 
 mydb = myclient["mydatabase"]
@@ -14,7 +16,7 @@ vac_col = mydb["vac"]
 url = "https://api.hh.ru/vacancies"
 
 headers = {
-    "Authorization": f"Bearer APPLTR1VCS1EDSEC3I1VH030MG1IA9BD5MKT5H83SBL13TA2PFOFASI4KVC7JEB9",
+    "Authorization": f"Bearer {TOKEN}",
     "Content-Type": "application/json",  # Добавьте, если требуется
 }
 
