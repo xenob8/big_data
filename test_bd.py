@@ -19,7 +19,7 @@ def test_total_size():
     print(datas)
 
 
-def test_foo():
+def test_avg_salary():
     datas = vac_col.find({
         "$and": [
             {"salary": {"$ne": None}},
