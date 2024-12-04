@@ -1,4 +1,5 @@
 import pymongo
+from elasticsearch import Elasticsearch, helpers
 
 from bd import vac_col
 from utils import get_avg_salary
@@ -15,15 +16,24 @@ def test_total_size():
     print(datas)
 
 
-def test_avg_salary():
+def preload_elastic_search():
+    es = Elasticsearch("http://localhost:9200")
+
     datas = vac_col.find({
         "$and": [
             {"salary": {"$ne": None}},
         ]
     })
-    salaries = []
+    items = []
     for data in datas:
+        item = {}
         salary = get_avg_salary(data)
-        salaries.append(salary)
-    avg = sum(salaries) / len(salaries)
-    print(avg)
+        item["salary"] = salary
+        city = data["area"]["name"]
+        item["city"] = city
+        items.append(item)
+
+    actions = [
+        {"_index": "salaries", "_source": doc} for doc in items
+    ]
+    helpers.bulk(es, actions)
