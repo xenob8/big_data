@@ -1,17 +1,11 @@
 import datetime
 import json
-from calendar import month
 from datetime import timedelta
 
-import pymongo
 import requests
 
+from bd import vac_col
 from secrets import TOKEN
-
-myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-
-mydb = myclient["mydatabase"]
-vac_col = mydb["vac"]
 
 url = "https://api.hh.ru/vacancies"
 

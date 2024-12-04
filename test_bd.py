@@ -1,11 +1,7 @@
 import pymongo
 
+from bd import vac_col
 from utils import get_avg_salary
-
-myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-
-mydb = myclient["mydatabase"]
-vac_col = mydb["vac"]
 
 
 def test_total_size():
