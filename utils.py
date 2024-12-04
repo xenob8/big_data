@@ -14,16 +14,16 @@ def get_avg_salary(data):
     upper_bound_salary = data["salary"]["to"]
     lower_bound_salary = data["salary"]["from"]
 
+    if not upper_bound_salary:
+        upper_bound_salary = calc_lower_bound(lower_bound_salary)
+    elif not lower_bound_salary:
+        lower_bound_salary = calc_lower_bound(upper_bound_salary)
+
     if currency == "USD":
         upper_bound_salary = upper_bound_salary * 100
         lower_bound_salary = lower_bound_salary * 100
     elif currency == "EUR":
         upper_bound_salary = upper_bound_salary * 100
         lower_bound_salary = lower_bound_salary * 105
-
-    if not upper_bound_salary:
-        upper_bound_salary = calc_lower_bound(lower_bound_salary)
-    elif not lower_bound_salary:
-        lower_bound_salary = calc_lower_bound(upper_bound_salary)
 
     return (upper_bound_salary + lower_bound_salary) / 2

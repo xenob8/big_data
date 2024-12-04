@@ -1,5 +1,7 @@
 import pymongo
 
+from utils import get_avg_salary
+
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 
 mydb = myclient["mydatabase"]
@@ -15,3 +17,17 @@ def test_total_size():
         ]}
     )
     print(datas)
+
+
+def test_foo():
+    datas = vac_col.find({
+        "$and": [
+            {"salary": {"$ne": None}},
+        ]
+    })
+    salaries = []
+    for data in datas:
+        salary = get_avg_salary(data)
+        salaries.append(salary)
+    avg = sum(salaries) / len(salaries)
+    print(avg)
