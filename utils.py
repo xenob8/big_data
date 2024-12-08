@@ -19,11 +19,22 @@ def get_avg_salary(data):
     elif not lower_bound_salary:
         lower_bound_salary = calc_lower_bound(upper_bound_salary)
 
-    if currency == "USD":
-        upper_bound_salary = upper_bound_salary * 100
-        lower_bound_salary = lower_bound_salary * 100
-    elif currency == "EUR":
-        upper_bound_salary = upper_bound_salary * 100
-        lower_bound_salary = lower_bound_salary * 105
+    middle_salary = (upper_bound_salary + lower_bound_salary) / 2
 
-    return (upper_bound_salary + lower_bound_salary) / 2
+    return price_to_rub(middle_salary, currency)
+
+
+def price_to_rub(price, currency):
+    currency_rates = {
+        'RUR': 1,
+        'USD': 99.4215,
+        'EUR': 106.3040,
+        'AZN': 58.4832,
+        'KZT': 0.1895,
+        'KGS': 0.1145,
+        'UZS': 0.0077,
+        'BYN': 29.1858,
+        "BYR": 29.1858 / 10_000
+    }
+    return currency_rates[currency] * price
+
