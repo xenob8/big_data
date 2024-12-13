@@ -1,4 +1,7 @@
-requests
-pymongo
+requests~=2.32.3
+pymongo~=4.10.1
 pytest
 prometheus_client
+numpy~=2.2.0
+elasticsearch~=8.16.0
+matplotlib~=3.9.3

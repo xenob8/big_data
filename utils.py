@@ -2,11 +2,11 @@ from constants import deviation_percent
 
 
 def calc_upper_bound(lower_bound):
-    return lower_bound * (1 + deviation_percent)
+    return lower_bound * (1 + (deviation_percent / 100))
 
 
 def calc_lower_bound(upper_bound):
-    return upper_bound / (1 + deviation_percent)
+    return upper_bound / (1 + (deviation_percent / 100))
 
 
 def get_avg_salary(data):
@@ -15,13 +15,15 @@ def get_avg_salary(data):
     lower_bound_salary = data["salary"]["from"]
 
     if not upper_bound_salary:
-        upper_bound_salary = calc_lower_bound(lower_bound_salary)
+        upper_bound_salary = calc_upper_bound(lower_bound_salary)
     elif not lower_bound_salary:
         lower_bound_salary = calc_lower_bound(upper_bound_salary)
 
     middle_salary = (upper_bound_salary + lower_bound_salary) / 2
 
-    return price_to_rub(middle_salary, currency)
+    price_in_rub = price_to_rub(middle_salary, currency)
+
+    return price_in_rub
 
 
 def price_to_rub(price, currency):
@@ -31,10 +33,11 @@ def price_to_rub(price, currency):
         'EUR': 106.3040,
         'AZN': 58.4832,
         'KZT': 0.1895,
-        'KGS': 0.1145,
+        'KGS': 1.21,
         'UZS': 0.0077,
         'BYN': 29.1858,
-        "BYR": 29.1858 / 10_000
+        "BYR": 29.1858
     }
     return currency_rates[currency] * price
 
+print(calc_upper_bound(100))

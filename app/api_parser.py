@@ -5,7 +5,7 @@ from datetime import timedelta
 import requests
 
 from bd import vac_col
-from secrets import TOKEN
+from my_secretes import TOKEN
 
 url = "https://api.hh.ru/vacancies"
 

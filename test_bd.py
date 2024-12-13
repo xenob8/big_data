@@ -1,17 +1,20 @@
+import numpy as np
 from elasticsearch import Elasticsearch, helpers
 
 from bd import vac_col
 from utils import get_avg_salary
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 def test_total_size():
     datas = vac_col.count_documents({}
-        # "$and": [
-        #     {"salary": {"$ne": None}},
-        #     {"salary.from": {"$ne": None}},
-        #     {"salary.to": {"$ne": None}}
-        # ]}
-    )
+                                    # "$and": [
+                                    #     {"salary": {"$ne": None}},
+                                    #     {"salary.from": {"$ne": None}},
+                                    #     {"salary.to": {"$ne": None}}
+                                    # ]}
+                                    )
     print(datas)
 
 
@@ -24,11 +27,14 @@ def test_preload_elastic_search():
         ]
     })
     items = []
+    salaries = []
     for data in datas:
         item = {}
         salary = None
         if data["salary"]:
             salary = get_avg_salary(data)
+            if salary < 10_000:
+                continue
         item["salary"] = salary
         city = data["area"]["name"]
         item["city"] = city
@@ -39,9 +45,11 @@ def test_preload_elastic_search():
         item["exp"] = data["experience"]
         item["employer"] = data["employer"]["name"]
         items.append(item)
+        salaries.append(salary)
+    print(salaries)
 
     actions = [
-        {"_index": "with_salary",
+        {"_index": "fixed_only_salary",
          "_source": doc,
          "pipeline": "lang_detector"
          } for doc in items
@@ -62,6 +70,10 @@ def test_get_all_adresses():
     for data in datas:
         salary = get_avg_salary(data)
         salaries.append(salary)
+
+    print("mean:", np.mean(salaries))
+    std = np.std(salaries)
+    print((0.5 * std * std)**0.5)
 
     print(sum(salaries) / len(salaries))
 
